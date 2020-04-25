@@ -1,0 +1,69 @@
+{
+	"private": true,
+	"name": "vscode-sm",
+	"displayName": "Simple Math Support",
+	"description": "Highlight and formatter for Simple Math",
+	"publisher": "aster",
+	"version": "0.1.0",
+	"icon": "logo.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GalAster/vscode-sm.git"
+	},
+	"categories": [
+		"Programming Languages",
+		"Formatters"
+	],
+	"engines": {
+		"vscode": "^1.39.0"
+	},
+	"activationEvents": [
+		"onLanguage:sm"
+	],
+	"scripts": {
+		"postinstall": "node ./node_modules/vscode/bin/install && tsc",
+		"build": "yarn lint && ts-node syntax/build.ts && tsc",
+		"pack": "yarn build && vsce package",
+		"lint": "tslint **/*.ts --fix",
+		"reset": "git reset Head~ --soft"
+	},
+	"contributes": {
+		"languages": [
+			{
+				"id": "sm",
+				"aliases": [],
+				"extensions": [
+					".sm"
+				],
+				"filenames": [],
+				"filenamePatterns": [],
+				"mimetypes": [
+					"text/x-simple-math"
+				],
+				"configuration": "./syntax/sm.configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "SimpleMath",
+				"scopeName": "source.sm",
+				"path": "./syntax/sm.tmLanguage.json"
+			},
+			{
+				"scopeName": "markdown.sm.codeblock",
+				"path": "./syntax/sm.markdown.json",
+				"injectTo": [
+					"text.html.markdown"
+				],
+				"embeddedLanguages": {
+					"meta.embedded.block.sm": "sm"
+				}
+			}
+		]
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@types/node": "^13.7.6",
+		"vscode": "^1.1.36"
+	}
+}

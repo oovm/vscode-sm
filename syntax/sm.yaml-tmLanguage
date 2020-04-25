@@ -1,0 +1,199 @@
+version: v0.4.0
+scopeName: source.sm
+uuid: 6267dad2-7d52-462a-a1ef-7e3da7378a7e
+information_for_contributors:
+  - 'aster: galaster@foxmail.com'
+patterns:
+  - include: '#comment'
+  - include: '#import'
+  - include: '#table'
+  - include: '#record'
+  - include: '#illegal'
+repository:
+  comment:
+    patterns:
+      - name: comment.block.sm
+        begin: (%%%)
+        beginCaptures:
+          '1': {name: punctuation.definition.comment.block.sm}
+        end: (%%%)
+        endCaptures:
+          '1': {name: punctuation.definition.comment.block.sm}
+        patterns:
+          - include: text.html.markdown
+      - name: comment.line.sm
+        match: (#).*$\n?
+        captures:
+          '1': {name: punctuation.definition.comment.line.sm}
+  import:
+    comment: using a.{b}
+    begin: \b(using)\b
+    captures:
+      '1': {name: keyword.control.import.sm}
+    end: \b(as)\b\s+([A-Za-z_][A-Za-z0-9_]*)
+    endCaptures:
+      '1': {name: keyword.control.as.sm}
+      '2': {name: entity.name.tag.sm}
+    patterns:
+      - name: string.path.sm
+        match: (".*"|'.*')
+      - name: keyword.control.file.sm
+        match: ([A-Za-z_][A-Za-z0-9_]*)
+  table:
+    patterns:
+      - comment: '[dict.scope]'
+        name: meta.tag.dict.sm
+        match: ^\s*(\[)([^\[\]]*)(\])
+        captures:
+          '1': {name: punctuation.definition.dict.sm}
+          '2': {patterns: [{match: '[^\s.]+', name: entity.other.attribute-name.dict.sm}]}
+          '3': {name: punctuation.definition.dict.sm}
+      - comment: <list.scope>
+        name: meta.tag.list.sm
+        match: ^\s*(\<)([^\<\>]*)(\>)
+        captures:
+          '1': {name: punctuation.definition.list.sm}
+          '2': {patterns: [{match: '[^\s.]+', name: entity.other.attribute-name.list.sm}]}
+          '3': {name: punctuation.definition.list.sm}
+  record:
+    patterns:
+      - name: invalid.no_key.sm
+        match: (\s*(?:=|:).*)$
+      - name: invalid.no_value.sm
+        match: (\s*[A-Za-z_][A-Za-z0-9_]*\s*=)(?=\s*$)
+      - begin: \s*([A-Za-z0-9\._"']+)\s*(=|:)\s*
+        beginCaptures:
+          '1': {patterns: [{include: '#key'}]}
+          '2': {name: punctuation.definition.record.sm}
+        end: $|(?==)|\,|\s*(?=\})
+        patterns:
+          - include: '#data'
+          - include: '#illegal'
+      - name: punctuation.definition.new_key.sm
+        match: (?x)([*])
+      - begin: (?x)([&])\s*
+        beginCaptures:
+          '1': {name: punctuation.definition.new_data.sm}
+        end: $|(?==)|\,|\s*(?=\})
+        patterns:
+          - include: '#data'
+          - include: '#illegal'
+  key:
+    patterns:
+      - name: entity.name.tag.sm
+        match: ([A-Za-z_][A-Za-z0-9_]*)
+      - name: string.key.sm
+        match: (".*"|'.*'|[0-9]+)
+  data:
+    patterns:
+      - comment: '{dict: "inline"}'
+        begin: (?<!\w)([A-Za-z_][A-Za-z0-9_]*\s*)?(\{)\s*
+        beginCaptures:
+          '1': {name: entity.name.type.class.sm}
+          '2': {name: punctuation.definition.dict.inline.sm}
+        end: \s*(\})(?!\w)
+        endCaptures:
+          '1': {name: punctuation.definition.dict.inline.sm}
+        patterns:
+          - include: '#record'
+          - include: '#data'
+      - comment: '[1, 2, 3]'
+        begin: (?<!\w)([A-Za-z_][A-Za-z0-9_]*\s*)?(\[)\s*
+        beginCaptures:
+          '1': {name: entity.name.type.class.sm}
+          '2': {name: punctuation.definition.array.sm}
+        end: \s*(\])(?!\w)
+        endCaptures:
+          '1': {name: punctuation.definition.array.sm}
+        patterns:
+          - include: '#data'
+      - comment: (1, 2, 3)
+        begin: (?<!\w)([A-Za-z_][A-Za-z0-9_]*\s*)?(\()\s*
+        beginCaptures:
+          '1': {name: entity.name.type.class.sm}
+          '2': {name: punctuation.definition.array.sm}
+        end: \s*(\))(?!\w)
+        endCaptures:
+          '1': {name: punctuation.definition.array.sm}
+        patterns:
+          - include: '#data'
+      - match: ([$])([A-Za-z_-][\\\.\/*A-Za-z0-9_]*)
+        captures:
+          '1': {name: punctuation.definition.cite.sm}
+          '2': {name: support.function.cite.sm}
+      - match: (?<!\w)(true|false)(?!\w)
+        captures:
+          '1': {name: constant.other.boolean.sm}
+      - match: (?<!\w)(null)(?!\w)
+        captures:
+          '1': {name: constant.other.null.sm}
+      - include: '#number'
+      - include: '#string'
+  number:
+    patterns:
+      - match: (?<!\w)(0x[0-9a-fA-F]+)(_[A-Za-z][A-Za-z0-9_]*)?(?!\w)
+        captures:
+          '1': {name: constant.numeric.hex.sm}
+          '2': {name: keyword.control.handler.byte.sm}
+      - match: (?<!\w)(0o[0-7]+)(_[A-Za-z][A-Za-z0-9_]*)?(?!\w)
+        captures:
+          '1': {name: constant.numeric.oct.sm}
+          '2': {name: keyword.control.handler.byte.sm}
+      - match: (?<!\w)(0b[01]+)(_[A-Za-z][A-Za-z0-9_]*)?(?!\w)
+        captures:
+          '1': {name: constant.numeric.bin.sm}
+          '2': {name: keyword.control.handler.byte.sm}
+      - match: (?<!\w)([\+\-]?(0|([1-9](([0-9]|_[0-9])+)?))(?:(?:\.(0|([1-9](([0-9]|_[0-9])+)?)))?[eE][\+\-]?[1-9]_?[0-9]*|(?:\.[0-9_]*)))([A-Za-z][A-Za-z0-9_]*)?(?!\w)
+        captures:
+          '1': {name: constant.numeric.float.sm}
+          '10': {name: keyword.control.handler.number.sm}
+      - match: (?<!\w)((?:[\+\-]?(0|([1-9](([0-9]|_[0-9])+)?))))([A-Za-z_][A-Za-z0-9_]*)?(?!\w)
+        captures:
+          '1': {name: constant.numeric.integer.sm}
+          '6': {name: keyword.control.handler.number.sm}
+  string:
+    patterns:
+      - name: string.quoted.block.sm
+        begin: ([A-Za-z_][A-Za-z0-9_]*)?\s*(''')
+        beginCaptures:
+          '1': {name: keyword.control.handler.string.sm}
+          '2': {name: punctuation.definition.string.block.sm}
+        end: (''')
+        endCaptures:
+          '1': {name: punctuation.definition.string.block.sm}
+      - name: string.quoted.block.sm
+        begin: ([A-Za-z_][A-Za-z0-9_]*)?\s*(""")
+        beginCaptures:
+          '1': {name: keyword.control.handler.string.sm}
+          '2': {name: punctuation.definition.string.block.sm}
+        end: (""")
+        endCaptures:
+          '1': {name: punctuation.definition.string.block.sm}
+        patterns:
+          - match: \\([btnfr"\\\n/ ]|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})
+            name: constant.character.escape.sm
+          - match: \\[^btnfr/"\\\n]
+            name: invalid.illegal.escape.sm
+      - match: ([A-Za-z_][A-Za-z0-9_]*)?\s*(\'[^'\\]*(?:\\.[^'\\]*)*\')
+        captures:
+          '1': {name: keyword.control.handler.string.sm}
+          '2': {name: string.quoted.single.sm}
+      - match: ([A-Za-z_][A-Za-z0-9_]*)?\s*("[^"\\]*(?:\\.[^"\\]*)*")
+        captures:
+          '1': {name: keyword.control.handler.string.sm}
+          '2': {name: string.quoted.single.sm}
+        patterns:
+          - match: \\([btnfr"\\\n/ ]|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})
+            name: constant.character.escape.sm
+          - match: \\[^btnfr/"\\\n]
+            name: invalid.illegal.escape.sm
+      - match: ([A-Za-z_][A-Za-z0-9_]*)?\s*((\|).*)$
+        captures:
+          '1': {name: keyword.control.handler.string.sm}
+          '2': {name: string.raw.sm}
+          '3': {name: keyword.control.handler.string.sm}
+  illegal:
+    name: comment.invalid.illegal.sm
+    match: .*
+
+

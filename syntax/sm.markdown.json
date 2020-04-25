@@ -1,0 +1,23 @@
+{
+    "fileTypes": [],
+    "scopeName": "markdown.sm.codeblock",
+    "injectionSelector": "L:markup.fenced_code.block.markdown",
+    "patterns": [
+        {
+            "begin": "(?<=[`~])sm(\\s+[^`~]*)?$",
+            "end": "(^|\\G)(?=\\s*[`~]{3,}\\s*$)",
+            "patterns": [
+                {
+                    "begin": "(^|\\G)(\\s*)(.*)",
+                    "while": "(^|\\G)(?!\\s*([`~]{3,})\\s*$)",
+                    "contentName": "meta.embedded.block.sm",
+                    "patterns": [
+                        {
+                            "include": "source.sm"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

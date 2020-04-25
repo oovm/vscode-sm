@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="128" height="128" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style id="bx-google-fonts">@import url(https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe);</style>
+  </defs>
+  <path fill="#ff7473" d="m0 192 l512 0l0 128l-512 0z"/>
+  <path fill="#ffc952" d="m0 192 l460 0l-128 128l-332 0z"/>
+  <path fill="#47b8e0" d="m0 192 l324 0l-128 128l-196 0z"/>
+  <path fill="#34314c" d="m0 192 l188 0l-128 128l-60 0z"/>
+  <text x="35" y="285" style="fill: rgb(255, 255, 255); font-size: 96px; white-space: pre; font-family: 'ZCOOL KuaiLe';-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;">[@:{ARC}]</text>
+</svg>

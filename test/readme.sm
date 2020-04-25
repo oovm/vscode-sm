@@ -1,0 +1,7 @@
+
+
+
+# this is commont
+f(x_) := x^2 + 2x + 1
+      ?= x > 0
+
