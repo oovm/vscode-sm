@@ -17,6 +17,7 @@
     "engines": {
         "vscode": "^1.39.0"
     },
+    "main": "./dist/extension.js",
     "activationEvents": [],
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install && tsc",
@@ -36,7 +37,9 @@
                     ".sm",
                     ".simplemath"
                 ],
-                "filenames": [],
+                "filenames": [
+                    "readme.sm"
+                ],
                 "filenamePatterns": [],
                 "mimetypes": [],
                 "configuration": "./syntax/sm.configuration.json"

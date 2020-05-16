@@ -10,16 +10,16 @@
             "include": "#comment"
         },
         {
-            "include": "#import"
+            "include": "#operators"
         },
         {
-            "include": "#table"
+            "include": "#keywords"
         },
         {
-            "include": "#record"
+            "include": "#string"
         },
         {
-            "include": "#illegal"
+            "include": "#number"
         }
     ],
     "repository": {
@@ -47,7 +47,7 @@
                 },
                 {
                     "name": "comment.line.sm",
-                    "match": "(#).*$\\n?",
+                    "match": "(%).*$\\n?",
                     "captures": {
                         "1": {
                             "name": "punctuation.definition.comment.line.sm"
@@ -56,255 +56,34 @@
                 }
             ]
         },
-        "import": {
-            "comment": "using a.{b}",
-            "begin": "\\b(using)\\b",
+        "keywords": {
+            "comment": "keywords",
+            "match": "\\b(using|def|iff|as)\\b",
             "captures": {
                 "1": {
-                    "name": "keyword.control.import.sm"
+                    "name": "keyword.control.sm"
                 }
-            },
-            "end": "\\b(as)\\b\\s+([A-Za-z_][A-Za-z0-9_]*)",
-            "endCaptures": {
-                "1": {
-                    "name": "keyword.control.as.sm"
-                },
-                "2": {
-                    "name": "entity.name.tag.sm"
-                }
-            },
-            "patterns": [
-                {
-                    "name": "string.path.sm",
-                    "match": "(\".*\"|'.*')"
-                },
-                {
-                    "name": "keyword.control.file.sm",
-                    "match": "([A-Za-z_][A-Za-z0-9_]*)"
-                }
-            ]
+            }
         },
-        "table": {
+        "operators": {
             "patterns": [
                 {
-                    "comment": "[dict.scope]",
-                    "name": "meta.tag.dict.sm",
-                    "match": "^\\s*(\\[)([^\\[\\]]*)(\\])",
+                    "comment": "operators",
+                    "match": "(:\\?|:=)",
                     "captures": {
                         "1": {
-                            "name": "punctuation.definition.dict.sm"
-                        },
-                        "2": {
-                            "patterns": [
-                                {
-                                    "match": "[^\\s.]+",
-                                    "name": "entity.other.attribute-name.dict.sm"
-                                }
-                            ]
-                        },
-                        "3": {
-                            "name": "punctuation.definition.dict.sm"
+                            "name": "keyword.operator.bitwise.sm"
                         }
                     }
                 },
                 {
-                    "comment": "<list.scope>",
-                    "name": "meta.tag.list.sm",
-                    "match": "^\\s*(\\<)([^\\<\\>]*)(\\>)",
+                    "comment": "operators",
+                    "match": "(\\+|-)",
                     "captures": {
                         "1": {
-                            "name": "punctuation.definition.list.sm"
-                        },
-                        "2": {
-                            "patterns": [
-                                {
-                                    "match": "[^\\s.]+",
-                                    "name": "entity.other.attribute-name.list.sm"
-                                }
-                            ]
-                        },
-                        "3": {
-                            "name": "punctuation.definition.list.sm"
+                            "name": "keyword.operator.bitwise.sm"
                         }
                     }
-                }
-            ]
-        },
-        "record": {
-            "patterns": [
-                {
-                    "name": "invalid.no_key.sm",
-                    "match": "(\\s*(?:=|:).*)$"
-                },
-                {
-                    "name": "invalid.no_value.sm",
-                    "match": "(\\s*[A-Za-z_][A-Za-z0-9_]*\\s*=)(?=\\s*$)"
-                },
-                {
-                    "begin": "\\s*([A-Za-z0-9\\._\"']+)\\s*(=|:)\\s*",
-                    "beginCaptures": {
-                        "1": {
-                            "patterns": [
-                                {
-                                    "include": "#key"
-                                }
-                            ]
-                        },
-                        "2": {
-                            "name": "punctuation.definition.record.sm"
-                        }
-                    },
-                    "end": "$|(?==)|\\,|\\s*(?=\\})",
-                    "patterns": [
-                        {
-                            "include": "#data"
-                        },
-                        {
-                            "include": "#illegal"
-                        }
-                    ]
-                },
-                {
-                    "name": "punctuation.definition.new_key.sm",
-                    "match": "(?x)([*])"
-                },
-                {
-                    "begin": "(?x)([&])\\s*",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.new_data.sm"
-                        }
-                    },
-                    "end": "$|(?==)|\\,|\\s*(?=\\})",
-                    "patterns": [
-                        {
-                            "include": "#data"
-                        },
-                        {
-                            "include": "#illegal"
-                        }
-                    ]
-                }
-            ]
-        },
-        "key": {
-            "patterns": [
-                {
-                    "name": "entity.name.tag.sm",
-                    "match": "([A-Za-z_][A-Za-z0-9_]*)"
-                },
-                {
-                    "name": "string.key.sm",
-                    "match": "(\".*\"|'.*'|[0-9]+)"
-                }
-            ]
-        },
-        "data": {
-            "patterns": [
-                {
-                    "comment": "{dict: \"inline\"}",
-                    "begin": "(?<!\\w)([A-Za-z_][A-Za-z0-9_]*\\s*)?(\\{)\\s*",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "entity.name.type.class.sm"
-                        },
-                        "2": {
-                            "name": "punctuation.definition.dict.inline.sm"
-                        }
-                    },
-                    "end": "\\s*(\\})(?!\\w)",
-                    "endCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.dict.inline.sm"
-                        }
-                    },
-                    "patterns": [
-                        {
-                            "include": "#record"
-                        },
-                        {
-                            "include": "#data"
-                        }
-                    ]
-                },
-                {
-                    "comment": "[1, 2, 3]",
-                    "begin": "(?<!\\w)([A-Za-z_][A-Za-z0-9_]*\\s*)?(\\[)\\s*",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "entity.name.type.class.sm"
-                        },
-                        "2": {
-                            "name": "punctuation.definition.array.sm"
-                        }
-                    },
-                    "end": "\\s*(\\])(?!\\w)",
-                    "endCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.array.sm"
-                        }
-                    },
-                    "patterns": [
-                        {
-                            "include": "#data"
-                        }
-                    ]
-                },
-                {
-                    "comment": "(1, 2, 3)",
-                    "begin": "(?<!\\w)([A-Za-z_][A-Za-z0-9_]*\\s*)?(\\()\\s*",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "entity.name.type.class.sm"
-                        },
-                        "2": {
-                            "name": "punctuation.definition.array.sm"
-                        }
-                    },
-                    "end": "\\s*(\\))(?!\\w)",
-                    "endCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.array.sm"
-                        }
-                    },
-                    "patterns": [
-                        {
-                            "include": "#data"
-                        }
-                    ]
-                },
-                {
-                    "match": "([$])([A-Za-z_-][\\\\\\.\\/*A-Za-z0-9_]*)",
-                    "captures": {
-                        "1": {
-                            "name": "punctuation.definition.cite.sm"
-                        },
-                        "2": {
-                            "name": "support.function.cite.sm"
-                        }
-                    }
-                },
-                {
-                    "match": "(?<!\\w)(true|false)(?!\\w)",
-                    "captures": {
-                        "1": {
-                            "name": "constant.other.boolean.sm"
-                        }
-                    }
-                },
-                {
-                    "match": "(?<!\\w)(null)(?!\\w)",
-                    "captures": {
-                        "1": {
-                            "name": "constant.other.null.sm"
-                        }
-                    }
-                },
-                {
-                    "include": "#number"
-                },
-                {
-                    "include": "#string"
                 }
             ]
         },
@@ -462,10 +241,6 @@
                     }
                 }
             ]
-        },
-        "illegal": {
-            "name": "comment.invalid.illegal.sm",
-            "match": ".*"
         }
     }
 }
