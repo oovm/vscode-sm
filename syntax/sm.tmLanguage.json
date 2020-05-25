@@ -20,6 +20,9 @@
         },
         {
             "include": "#number"
+        },
+        {
+            "include": "#symbol"
         }
     ],
     "repository": {
@@ -57,33 +60,42 @@
             ]
         },
         "keywords": {
-            "comment": "keywords",
-            "match": "\\b(using|def|iff|as)\\b",
-            "captures": {
-                "1": {
+            "patterns": [
+                {
+                    "match": "\\b(using|let|def|iff|as)\\b",
                     "name": "keyword.control.sm"
+                },
+                {
+                    "match": "¶[¶0-9]*",
+                    "name": "keyword.control.input.sm"
+                },
+                {
+                    "match": "⁋[⁋0-9]*",
+                    "name": "keyword.control.output.sm"
                 }
-            }
+            ]
         },
         "operators": {
             "patterns": [
                 {
-                    "comment": "operators",
-                    "match": "(:\\?|:=)",
-                    "captures": {
-                        "1": {
-                            "name": "keyword.operator.bitwise.sm"
-                        }
-                    }
+                    "match": "(===?|=!=|<=|>=|<>|<|>)",
+                    "name": "keyword.operator.comparison.sm"
                 },
                 {
-                    "comment": "operators",
-                    "match": "(\\+|-)",
-                    "captures": {
-                        "1": {
-                            "name": "keyword.operator.bitwise.sm"
-                        }
-                    }
+                    "match": "(\\|>|->|:>)",
+                    "name": "keyword.operator.sm"
+                },
+                {
+                    "match": "(-|\\+|\\*|\\/|\\^)",
+                    "name": "keyword.operator.arithmetic.sm"
+                },
+                {
+                    "match": "(\\?=|:=|=)",
+                    "name": "keyword.operator.assignment.sm"
+                },
+                {
+                    "match": "(!|\\?)",
+                    "name": "keyword.operator.logical.sm"
                 }
             ]
         },
@@ -123,7 +135,7 @@
                     }
                 },
                 {
-                    "match": "(?<!\\w)([\\+\\-]?(0|([1-9](([0-9]|_[0-9])+)?))(?:(?:\\.(0|([1-9](([0-9]|_[0-9])+)?)))?[eE][\\+\\-]?[1-9]_?[0-9]*|(?:\\.[0-9_]*)))([A-Za-z][A-Za-z0-9_]*)?(?!\\w)",
+                    "match": "(?<!\\w)([\\+\\-]?(0|([1-9](([0-9]|_[0-9])+)?))(?:(?:\\.(0|([1-9](([0-9]|_[0-9])+)?)))?\\*\\*[\\+\\-]?[1-9]_?[0-9]*|(?:\\.[0-9_]*)))([A-Za-z][A-Za-z0-9_]*)?(?!\\w)",
                     "captures": {
                         "1": {
                             "name": "constant.numeric.float.sm"
@@ -225,20 +237,14 @@
                             "name": "invalid.illegal.escape.sm"
                         }
                     ]
-                },
+                }
+            ]
+        },
+        "symbol": {
+            "patterns": [
                 {
-                    "match": "([A-Za-z_][A-Za-z0-9_]*)?\\s*((\\|).*)$",
-                    "captures": {
-                        "1": {
-                            "name": "keyword.control.handler.string.sm"
-                        },
-                        "2": {
-                            "name": "string.raw.sm"
-                        },
-                        "3": {
-                            "name": "keyword.control.handler.string.sm"
-                        }
-                    }
+                    "match": "([a-zA-Z])+",
+                    "name": "entity.name.function.sm"
                 }
             ]
         }

@@ -9,6 +9,7 @@ patterns:
   - include: '#keywords'
   - include: '#string'
   - include: '#number'
+  - include: '#symbol'
 repository:
   comment:
     patterns:
@@ -26,20 +27,25 @@ repository:
         captures:
           '1': {name: punctuation.definition.comment.line.sm}
   keywords:
-    comment: keywords
-    match: \b(using|def|iff|as)\b
-    captures:
-      '1': {name: keyword.control.sm}
+    patterns:
+      - match: \b(using|let|def|iff|as)\b
+        name: keyword.control.sm
+      - match: ¶[¶0-9]*
+        name: keyword.control.input.sm
+      - match: ⁋[⁋0-9]*
+        name: keyword.control.output.sm
   operators:
     patterns:
-      - comment: operators
-        match: (:\?|:=)
-        captures:
-          '1': {name: keyword.operator.bitwise.sm}
-      - comment: operators
-        match: (\+|-)
-        captures:
-          '1': {name: keyword.operator.bitwise.sm}
+      - match: (===?|=!=|<=|>=|<>|<|>)
+        name: keyword.operator.comparison.sm
+      - match: (\|>|->|:>)
+        name: keyword.operator.sm
+      - match: (-|\+|\*|\/|\^)
+        name: keyword.operator.arithmetic.sm
+      - match: (\?=|:=|=)
+        name: keyword.operator.assignment.sm
+      - match: (!|\?)
+        name: keyword.operator.logical.sm
   number:
     patterns:
       - match: (?<!\w)(0x[0-9a-fA-F]+)(_[A-Za-z][A-Za-z0-9_]*)?(?!\w)
@@ -54,7 +60,7 @@ repository:
         captures:
           '1': {name: constant.numeric.bin.sm}
           '2': {name: keyword.control.handler.byte.sm}
-      - match: (?<!\w)([\+\-]?(0|([1-9](([0-9]|_[0-9])+)?))(?:(?:\.(0|([1-9](([0-9]|_[0-9])+)?)))?[eE][\+\-]?[1-9]_?[0-9]*|(?:\.[0-9_]*)))([A-Za-z][A-Za-z0-9_]*)?(?!\w)
+      - match: (?<!\w)([\+\-]?(0|([1-9](([0-9]|_[0-9])+)?))(?:(?:\.(0|([1-9](([0-9]|_[0-9])+)?)))?\*\*[\+\-]?[1-9]_?[0-9]*|(?:\.[0-9_]*)))([A-Za-z][A-Za-z0-9_]*)?(?!\w)
         captures:
           '1': {name: constant.numeric.float.sm}
           '10': {name: keyword.control.handler.number.sm}
@@ -98,8 +104,7 @@ repository:
             name: constant.character.escape.sm
           - match: \\[^btnfr/"\\\n]
             name: invalid.illegal.escape.sm
-      - match: ([A-Za-z_][A-Za-z0-9_]*)?\s*((\|).*)$
-        captures:
-          '1': {name: keyword.control.handler.string.sm}
-          '2': {name: string.raw.sm}
-          '3': {name: keyword.control.handler.string.sm}
+  symbol:
+    patterns:
+      - match: ([a-zA-Z])+
+        name: entity.name.function.sm
