@@ -5,11 +5,11 @@ information_for_contributors:
   - 'aster: galaster@foxmail.com'
 patterns:
   - include: '#comment'
-  - include: '#operators'
   - include: '#keywords'
   - include: '#string'
   - include: '#number'
   - include: '#symbol'
+  - include: '#operators'
 repository:
   comment:
     patterns:
@@ -28,23 +28,29 @@ repository:
           '1': {name: punctuation.definition.comment.line.sm}
   keywords:
     patterns:
-      - match: \b(using|let|def|iff|as)\b
+      - match: \b(using|macro|let|def|as)\b
+        name: keyword.control.definition.sm
+      - match: \b(if|iff)\b
         name: keyword.control.sm
       - match: ¶[¶0-9]*
-        name: keyword.control.input.sm
+        name: variable.parameter.input.ts
       - match: ⁋[⁋0-9]*
-        name: keyword.control.output.sm
+        name: variable.parameter.output.ts
+      - match: (##|#[0-9a-zA-Z]*|&)
+        name: variable.parameter.lambda.ts
   operators:
     patterns:
       - match: (===?|=!=|<=|>=|<>|<|>)
         name: keyword.operator.comparison.sm
-      - match: (\|>|->|:>)
-        name: keyword.operator.sm
+      - match: (\|>|->|:>|/@|@@@|@@|@)
+        name: keyword.operator.apply.sm
       - match: (-|\+|\*|\/|\^)
         name: keyword.operator.arithmetic.sm
       - match: (\?=|:=|=)
         name: keyword.operator.assignment.sm
-      - match: (!|\?)
+      - match: (!|¬)
+        name: keyword.operator.infix.sm
+      - match: (\?|°)
         name: keyword.operator.logical.sm
   number:
     patterns:
@@ -60,14 +66,15 @@ repository:
         captures:
           '1': {name: constant.numeric.bin.sm}
           '2': {name: keyword.control.handler.byte.sm}
-      - match: (?<!\w)([\+\-]?(0|([1-9](([0-9]|_[0-9])+)?))(?:(?:\.(0|([1-9](([0-9]|_[0-9])+)?)))?\*\*[\+\-]?[1-9]_?[0-9]*|(?:\.[0-9_]*)))([A-Za-z][A-Za-z0-9_]*)?(?!\w)
+      - match: ([\+\-]?(0|([1-9](([0-9]|_[0-9])+)?))(?:(?:\.(0|([1-9](([0-9]|_[0-9])+)?)))?\*\*[\+\-]?[1-9]_?[0-9]*|(?:\.[0-9_]*)))
         captures:
-          '1': {name: constant.numeric.float.sm}
-          '10': {name: keyword.control.handler.number.sm}
-      - match: (?<!\w)((?:[\+\-]?(0|([1-9](([0-9]|_[0-9])+)?))))([A-Za-z_][A-Za-z0-9_]*)?(?!\w)
+          '1': {name: constant.numeric.decimal.sm}
+      - match: ([\+\-]?(0|[1-9][0-9]*))
         captures:
           '1': {name: constant.numeric.integer.sm}
-          '6': {name: keyword.control.handler.number.sm}
+      - match: (¯|¨)
+        captures:
+          '1': {name: constant.numeric.control.sm}
   string:
     patterns:
       - name: string.quoted.block.sm
@@ -106,5 +113,12 @@ repository:
             name: invalid.illegal.escape.sm
   symbol:
     patterns:
-      - match: ([a-zA-Z])+
+      - match: (^@[a-zA-Z][_0-9a-zA-Z]*)
+        name: variable.parameter.macro.ts
+      - match: (\$[a-zA-Z][_0-9a-zA-Z]*)
+        name: variable.parameter.macro.ts
+      - match: ([_a-zA-Z][_0-9a-zA-Z]*)
         name: entity.name.function.sm
+      - match: (::)
+        name: entity.name.function.namespace.sm
+
