@@ -18,15 +18,18 @@
         "vscode": "^1.39.0"
     },
     "main": "./dist/extension.js",
-    "activationEvents": [],
+	"activationEvents": [
+		"*"
+	],
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install && tsc",
-        "build": "yarn lint && ts-node syntax/build.ts && tsc",
-        "pack": "yarn build && vsce package",
+        "build": "wee lint && ts-node syntax/build.ts && tsc",
+        "pack": "wee build && vsce package",
         "lint": "tslint **/*.ts --fix",
         "reset": "git reset Head~ --soft"
     },
     "contributes": {
+        "commands": [],
         "languages": [
             {
                 "id": "sm",
