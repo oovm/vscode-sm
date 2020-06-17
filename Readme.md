@@ -6,4 +6,3 @@ Arc support for vscode
 
 *Arc Readable Configuration*
 
-$$ \bigwedge $$
