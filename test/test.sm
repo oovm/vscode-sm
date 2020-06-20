@@ -1,0 +1,118 @@
+
+
+using a as b
+
+
+
+% definition: let bind
+a = 1
+let a = 1
+
+% definition: def bind
+f(x_) := x^2 + 2x + 1
+      ?= x > 0
+
+def f(x_)
+iff x > 0 {
+    x^2 + 2x + 1
+}
+
+% operation: prefix
+! x
+¬ x
+
+% operation: postfix
+x°
+
+
+% function: call
+[1, 2, 3].first       % ok
+[1, 2, 3] |> first    % ok
+[1, 2, 3].first()     % ok
+[1, 2, 3] |> first()  % error
+
+
+% function: curry call
+[1, 2, 3].sort_by(N)
+% List::sort_by(N, [1, 2, 3])
+[1, 2, 3] |> sort_by(N)
+% sort_by(N)([1, 2, 3])
+
+
+% literal: string
+string = "string"
+string_raw = r"string"
+multiline = r"""
+newline
+"""
+
+1.2**+6
+
+1¯20
+1¨20
+
+
+
+¶1 1 + 1
+⁋2 2
+
+std::repl::input(1)
+std::repl::output(1)
+
+-1
+
+2x
+-2x
+1.2x
+-1.2x
+
+a::b
+
+#
+#1
+
+##2
+&
+
+f = #1 + #.2 &
+
+
+
+f@x
+f@@x
+f/@x
+f@@@x
+
+
+Range(1,2)
+
+
+% macro call
+@TexForm {
+    a
+}
+
+% function call
+TexForm@a
+
+if a === 2
+iff a == 2
+
+macro s {
+    ($a) => {
+
+    }
+}
+
+
+
+a `mod b
+a 'mod b
+
+f'(x)
+f`(x)
+
+
+
+[flat,order].map(2.#&)
+

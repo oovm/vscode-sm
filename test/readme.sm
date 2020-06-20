@@ -1,100 +1,61 @@
-using a as b
+% literal: string
+string = "string"
+string_raw = r"string"
+multiline = r"""
+newline
+"""
+
+% literal: number
+3**6
+
+1¯20
+1¨20
 
 
+% definition: let bind
+a = 1
+let a = 1
 
-% this is commont
+% definition: def bind
 f(x_) := x^2 + 2x + 1
       ?= x > 0
-
 
 def f(x_)
 iff x > 0 {
     x^2 + 2x + 1
 }
 
-
-
-
-
+% operation: prefix
 ! x
 ¬ x
 
-x?
+% operation: postfix
 x°
 
 
-
+% function: call
 [1, 2, 3].first       % ok
 [1, 2, 3] |> first    % ok
 [1, 2, 3].first()     % ok
 [1, 2, 3] |> first()  % error
 
 
+% function: curry call
+[1, 2, 3].sort_by(N)     % List::sort_by([1, 2, 3], N)
+[1, 2, 3] |> sort_by(N)  % global::sort_by(N)([1, 2, 3])
 
-[1, 2, 3].sort_by(N)
-% List::sort_by(N, [1, 2, 3])
-[1, 2, 3] |> sort_by(N)
-% sort_by(N)([1, 2, 3])
 
-2**5
+% function: lambda call
+f = #1 + #.2 &
 
-let a = 2
+% function: macro call
+@TexForm {
+    1 + 1
+}
 
-s = "s"
 
-s = r"""
-newline
-"""
-
-1.2**+6
-
-1¯20
-1¨20
+% repl
 
 ¶1 1 + 1
 ⁋2 2
 
--1
-
-2x
--2x
-1.2x
--1.2x
-
-a::b
-
-#
-#1
-
-##2
-&
-
-f = #1 + #.2 &
-
-
-
-f@x
-f@@x
-f/@x
-f@@@x
-
-
-Range(1,2)
-
-
-% macro call
-@TexForm {
-    a
-}
-
-% function call
-TexForm@a
-
-if a === 2
-iff a == 2
-
-macro s {
-    ($a) => {
-
-    }
-}
