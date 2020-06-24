@@ -9,8 +9,7 @@ a = 1
 let a = 1
 
 % definition: def bind
-f(x_) := x^2 + 2x + 1
-      ?= x > 0
+f(x_) := x^2 + 2x + 1 ?= x > 0
 
 def f(x_)
 iff x > 0 {
@@ -51,7 +50,7 @@ newline
 1¯20
 1¨20
 
-
+\
 
 ¶1 1 + 1
 ⁋2 2
@@ -114,5 +113,147 @@ f`(x)
 
 
 
-[flat,order].map(2.#&)
+[flat,order].map(#(1)&)
 
+
+trait extension ShortDelayedRule {
+    def infix :>(a, b){
+        a :-> b
+    }
+}
+
+
+
+
+f = 1 + 10x + 45x^2 + 120x^3 + 210 x^4
+  + 252x^5 + 210x^6 + 120 x^7 + 45 x^8
+  + 10x^9 + x^10
+
+
+f =(1 + 10x + 45x^2 + 120x^3 + 210 x^4
+  + 252x^5 + 210x^6 + 120 x^7 + 45 x^8
+  + 10x^9 + x^10)
+
+
+a@>f
+
+a.>2
+
+pipe `|>`
+
+a = 114514
+|> factor
+|> flatten
+|> total
+
+pipe_print: `|>>`
+
+a = 114514
+|>> factor
+|>> flatten
+|>> total
+
+
+a.print
+
+do {
+    x1 <- &var1;
+    x2 <- &var2;
+    func(x1, x2)
+}
+
+for a, b in s {
+
+}
+
+for {
+    a <- s,
+    b <- b,
+    yield s
+}
+
+iff a {
+    s,
+    b
+}
+
+switch {
+   a == 2,
+   true,
+}
+
+match e {
+    case _Plus iff ,
+
+}
+
+:<-
+<
+:
+
+
+s.a(b)(c)
+
+a.b(1) <=> b(a, 1)
+
+a(1)(2).b(3)(4) <=> b(a(1)(2), 3)(4)
+
+
+f(f())
+
+
+a.b(1) <=> b(a)(1)
+
+a(1)(2).b(3)(4) <=> b(a(1)(2))(3)(4)
+
+add(1)(2).times(2)(3)
+
+times(add(1, 2))(3)(4)
+times(add(1, 2), 3)(4)
+
+
+[1, 2, 3].sort_by(N)
+
+sort_by([1,2,3])(N)
+
+[1, 2, 3] |> sort_by(N)
+
+sort_by(N)(1, 2, 3)
+
+
+break
+yeild
+return
+pass
+
+
+
+列表推导式
+
+⟦ ⟧
+
+[x*2 | x <- [1..10], x*2 >= 12]
+
+[x*2 | x <- [1..10], x*2 >= 12]
+
+内积
+
+
+⟨a, b⟩
+<a, b>
+
+﴾  ﴿
+
+⦋  ⦌
+
+⦇Integer| ⦈
+
+1 + ⁅Integer|0x64⁆
+
+ ⦇ ⦈ ⦉ ⦊
+
+⦅ ⦆ 〚 〛 ⦃ ⦄
+
+⦋ ⦌ ⦍ ⦎ ⦏ ⦐
+
+〈 〉 ⦑ ⦒ ⧼ ⧽

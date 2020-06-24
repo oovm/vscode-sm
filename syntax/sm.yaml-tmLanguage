@@ -28,9 +28,11 @@ repository:
           '1': {name: punctuation.definition.comment.line.sm}
   keywords:
     patterns:
-      - match: \b(using|macro|let|def|as)\b
+      - match: \b(using|macro|let|def|as|in|with)\b
         name: keyword.control.definition.sm
-      - match: \b(if|iff)\b
+      - match: \b(if|iff|do|while|loop|return|for|yield|switch|match|case)\b
+        name: keyword.control.sm
+      - match: \b(true|false)\b
         name: keyword.control.sm
       - match: ¶[¶0-9]*
         name: variable.parameter.input.ts
@@ -38,6 +40,17 @@ repository:
         name: variable.parameter.output.ts
       - match: (##|#[0-9a-zA-Z]*|&)
         name: variable.parameter.lambda.ts
+      - include: '#trait'
+  trait:
+    begin: \b(trait)\b
+    beginCaptures:
+      '1': {name: storage.type.trait.sm}
+    end: ([0-9a-zA-Z]+)\s*[{;]
+    endCaptures:
+      '1': {name: entity.name.type.trait.sm}
+    patterns:
+      - match: ([0-9a-zA-Z]+)
+        name: storage.modifier.sm
   operators:
     patterns:
       - match: (===?|=!=|<=|>=|<>|<|>)
