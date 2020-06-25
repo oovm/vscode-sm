@@ -30,6 +30,10 @@ export let EscapedInputProvider: CompletionItemProvider = {
         return completions
     },
 }
+  
+const full :CompletionItem = new CompletionItem('\\e')
+
+
 
 const constant_maps: Lists = [
     ['empty', '∅', 'std::set::Empty'],
